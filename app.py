@@ -4,6 +4,5 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello from MyTradingBot on Render"
-    
+    return "Hello from MyTradingBot on Render
     
