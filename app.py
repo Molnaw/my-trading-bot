@@ -1,33 +1,30 @@
+from flask import Flask, request, jsonify
 import os
 import requests
-from flask import Flask
 
 app = Flask(__name__)
 
-def send_telegram_message(text: str):
-    token = os.getenv("TELEGRAM_BOT_TOKEN")
-    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
-    if not token or not chat_id:
-        return "Telegram env not set"
+@app.route("/", methods=["GET"])
+def home():
+    return "Render Telegram API is running"
 
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
+@app.route("/notify", methods=["POST"])
+def notify():
+    data = request.get_json()
+    message = data.get("message")
+
+    if not message:
+        return jsonify({"error": "message is required"}), 400
+
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
-        "chat_id": chat_id,
-        "text": text
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message
     }
 
-    r = requests.post(url, json=payload, timeout=10)
-    return r.text
-
-
-@app.route("/")
-def home():
-    return "MyTradingBot is running on Render"
-
-
-@app.route("/test-telegram")
-def test_telegram():
-    result = send_telegram_message("✅ Telegram connected from Render!")
-    return result
+    r = requests.post(url, json=payload)
+    return jsonify({"status": "ok", "telegram_response": r.text})
     
