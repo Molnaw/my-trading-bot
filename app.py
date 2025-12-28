@@ -1,17 +1,17 @@
 from flask import Flask, request, jsonify
 import os
-from okx.api_v5 import Trade as Trade
+import okx.Trade as Trade
 
 app = Flask(__name__)
 
-# ดึงค่า API OKX ที่คุณใส่ไว้ใน Environment Variables ของ Render
+# ดึงค่า API จาก Environment Variables ของ Render
 API_KEY = os.environ.get("OKX_API_KEY")
 API_SECRET = os.environ.get("OKX_API_SECRET")
 API_PASSPHRASE = os.environ.get("OKX_API_PASSPHRASE")
 
-# เชื่อมต่อ OKX (flag '0' คือบัญชีจริง)
-# ตรวจสอบให้แน่ใจว่าได้ตั้งค่าเหล่านี้ในหน้า Environment ของ Render แล้ว
-trade_api = Trade.TradeAPI(API_KEY, API_SECRET, API_PASSPHRASE, False, '0')
+# เชื่อมต่อ OKX (flag '0' คือบัญชีจริง, '1' คือบัญชี Demo)
+# ตรวจสอบให้แน่ใจว่าได้ตั้งค่า Environment Variables ในหน้า Dashboard ของ Render แล้ว
+trade_api = Trade.TradeAPI(API_KEY, API_SECRET, API_PASSPHRASE, False, flag='0')
 
 @app.route("/", methods=["GET"])
 def home():
@@ -21,7 +21,7 @@ def home():
 def webhook():
     data = request.get_json()
     try:
-        # รับค่าจาก Google Colab เช่น {"action": "buy", "symbol": "BTC-USDT", "size": "0.001"}
+        # รับค่าจาก Webhook เช่น {"action": "buy", "symbol": "BTC-USDT", "size": "0.1"}
         result = trade_api.place_order(
             instId=data.get("symbol"),
             tdMode='cash',
