@@ -1,0 +1,24 @@
+name: Stock Alert Daily
+
+on:
+  schedule:
+    - cron: '30 2 * * 1-5'   # 09:30 น. เวลาไทย (ก่อนตลาดเปิด)
+    - cron: '30 9 * * 1-5'   # 16:30 น. เวลาไทย (ก่อนตลาดปิด)
+  workflow_dispatch:       # ปุ่มสำหรับกดรันเองเพื่อทดสอบ
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run stock alert
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python stock_alert.py
