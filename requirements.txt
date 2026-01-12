@@ -1,7 +1,3 @@
-flask
-requests
-gunicorn
-python-okx
-pandas
-pandas_ta
 yfinance
+requests
+pandas
