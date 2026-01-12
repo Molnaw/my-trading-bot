@@ -4,3 +4,4 @@ gunicorn
 python-okx
 pandas
 pandas_ta
+yfinance
