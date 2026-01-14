@@ -6,7 +6,7 @@ import os
 MY_PORTFOLIO = {
     "CPALL.BK": 60.00,
     'TRUE.BK': {'avg_cost': 11.50},
-    "lchl.bk":{'avg_cost':13.20},
+    'ICHI.BK':{'avg_cost':13.20},
     
     
 }
