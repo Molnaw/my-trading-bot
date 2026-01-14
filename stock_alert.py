@@ -3,15 +3,11 @@ import requests
 import os
 
 # --- 1. รายชื่อหุ้นในพอร์ตของคุณ (แก้ไขชื่อหุ้นและทุนตรงนี้) ---
- MY_PORTFOLIO = {
+MY_PORTFOLIO = {
     "CPALL.BK": 60.00,
     "TRUE.BK": 11.50,
     "ICHI.BK": 13.20
-  }   
-
-    
-    
-
+}
 
 # --- 2. ดึงค่าจาก GitHub Secrets ---
 TOKEN = os.getenv('TELEGRAM_TOKEN')
