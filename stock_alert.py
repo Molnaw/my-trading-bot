@@ -6,7 +6,8 @@ import os
 MY_PORTFOLIO = {
     "SIRI.BK": 1.40,
     "BTS.BK": 9.02,
-    "TWPC.BK": 11.42
+    "TWPC.BK": 11.42,
+    "GLD.BK": 6.66,
 }
 
 # --- 2. ดึงค่าจาก GitHub Secrets ---
